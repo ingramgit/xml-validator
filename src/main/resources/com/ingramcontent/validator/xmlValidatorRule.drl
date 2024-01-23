@@ -1,0 +1,12 @@
+package com.ingramcontent.validator;
+
+import com.ingramcontent.model.XMLRequest;
+
+rule "Validate XML against XSD"
+	when 
+		xml: XMLRequest()
+	then
+		boolean validXML = XMLValidator.validateXMLSchema(xml.getXsdData(), xml.getXmlData());
+		xml.setValidXML(validXML);
+		xml.setErrorMessage(XMLValidator.ERROR_MSG);
+	end
