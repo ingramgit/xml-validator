@@ -30,6 +30,7 @@ public class XMLValidator implements java.io.Serializable {
 	public static boolean validateXMLSchema(String schemaData, String xmlData) {
 	    ERROR_MSG = null;
 		try {
+			xmlData = escapeCharacter(xmlData);
 			SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			factory.setResourceResolver(new ClasspathResourceResolver());
 			Schema schema = factory.newSchema(new StreamSource(new StringReader(schemaData)));
@@ -40,6 +41,19 @@ public class XMLValidator implements java.io.Serializable {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Convert '&' to escape character
+	 * 
+	 * @param xmlData
+	 * @return
+	 */
+	public static String escapeCharacter(String xmlData) {
+		if(xmlData == null) {
+			return xmlData;
+		}
+	    return xmlData.replaceAll("&(?!amp;)", "&amp;");
 	}
 
 }
